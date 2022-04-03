@@ -1,0 +1,44 @@
+{
+  "name": "compulsory_restapi",
+  "version": "1.0.0",
+  "description": "MongoDB-ExpressJS-NodeJS RESTful API",
+  "main": "server.js",
+  "scripts": {
+    "start-dev": "cross-env NODE_ENV=development nodemon server.js",
+    "test": "cross-env NODE_ENV=test mocha --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aneguet/MEN_RESTful_API.git"
+  },
+  "keywords": [
+    "mongodb",
+    "mongoose",
+    "nodejs",
+    "expressjs"
+  ],
+  "author": "Anna Lopez Ribo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aneguet/MEN_RESTful_API/issues"
+  },
+  "homepage": "https://github.com/aneguet/MEN_RESTful_API#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.2",
+    "cross-env": "^7.0.3",
+    "dotenv-flow": "^3.2.0",
+    "express": "^4.17.3",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.4.0",
+    "mongoose": "^6.2.2",
+    "swagger-ui-express": "^4.3.0",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "mocha": "^9.2.2"
+  }
+}
