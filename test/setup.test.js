@@ -6,12 +6,12 @@ const User = require("../models/user");
 
 // Deletes all the artists in the DB
 before((done) => {
-  // Artist.deleteMany({}, function (err) {});
+  Artist.deleteMany({}, function (err) {});
   // User.deleteMany({}, function (err) {});
   done();
 });
 after((done) => {
-  // Artist.deleteMany({}, function (err) {});
+  Artist.deleteMany({}, function (err) {});
   // User.deleteMany({}, function (err) {});
 
   done();
