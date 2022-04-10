@@ -6,8 +6,8 @@ const should = chai.should();
 const chaiHttp = require("chai-http"); // Plugin that allows https integration testing, it tests request & response
 chai.use(chaiHttp);
 const server = require("../server");
-
-describe("/General, User and Artist tests", () => {
+//describe("/General, User and Artist tests", () => {
+describe("/General, User and Artist tests", function () {
   it("Test default API Welcome route", (done) => {
     chai
       .request(server)

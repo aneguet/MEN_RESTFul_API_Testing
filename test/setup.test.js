@@ -15,6 +15,5 @@ beforeEach((done) => {
 afterEach((done) => {
   Artist.deleteMany({}, function (err) {});
   User.deleteMany({}, function (err) {});
-
   done();
 });
