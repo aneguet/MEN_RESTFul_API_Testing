@@ -4,10 +4,9 @@ const artist = require("../models/artist");
 const { verifyToken } = require("../validation");
 
 // ** CRUD
-// FIXME Required implementation: Testing with Tokens
 // 1) Create > POST · api/artists/
-//router.post("/", verifyToken, (req,res)=>{
-router.post("/", (req, res) => {
+//router.post("/", (req,res)=>{
+router.post("/", verifyToken, (req, res) => {
   data = req.body;
   artist
     .insertMany(data)
@@ -45,13 +44,21 @@ router.get("/", (req, res) => {
 
 // 3) Read specific artist > GET · api/artists/id
 router.get("/:id", (req, res) => {
+  const id = req.params.id;
   artist
     .findById(req.params.id)
     .then((data) => {
-      res.send(data);
+      if (!data) {
+        //wrong or non existing id
+        res.status(404).send({ message: "Cannot get artist with id= " + id });
+      } else {
+        res.status(200).send(data);
+      }
     })
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      res
+        .status(500)
+        .send({ message: "Error retrieving artist with id= " + id });
     });
 });
 

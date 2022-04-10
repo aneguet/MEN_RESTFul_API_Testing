@@ -4,15 +4,17 @@ process.env.NODE_ENV = "test";
 const Artist = require("../models/artist");
 const User = require("../models/user");
 
-// Deletes all the artists in the DB
-before((done) => {
+//clean up the database before and after each test
+// before((done) => {
+beforeEach((done) => {
   Artist.deleteMany({}, function (err) {});
-  // User.deleteMany({}, function (err) {});
+  User.deleteMany({}, function (err) {});
   done();
 });
-after((done) => {
+// after((done) => {
+afterEach((done) => {
   Artist.deleteMany({}, function (err) {});
-  // User.deleteMany({}, function (err) {});
+  User.deleteMany({}, function (err) {});
 
   done();
 });
