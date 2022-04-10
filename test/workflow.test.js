@@ -7,7 +7,7 @@ const chaiHttp = require("chai-http"); // Plugin that allows https integration t
 chai.use(chaiHttp);
 const server = require("../server");
 
-describe("/General and User tests", () => {
+describe("/General, User and Artist tests", () => {
   it("Test default API Welcome route", (done) => {
     chai
       .request(server)
@@ -197,9 +197,7 @@ describe("/General and User tests", () => {
           }); // end Register User 2
       }); // end Register User 1
   });
-});
 
-describe("/Artists tests", () => {
   // GET ALL the Artists
   it("Should GET ALL the Artists", (done) => {
     chai
