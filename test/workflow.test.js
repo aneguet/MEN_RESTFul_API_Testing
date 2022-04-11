@@ -95,12 +95,10 @@ describe("/General, User and Artist tests", function () {
           })
           .end((err, res) => {
             // Asserts
-            // FIXME console.log("Body response: " + res.body.error);
+            console.log("********* Body response: " + res.body.error);
             expect(res.status).to.be.equal(200);
             expect(res.body.error).to.be.equal(null);
-            // done();
-            this.timeout(100000000);
-            setTimeout(done, 100000000);
+            done();
           }); // end Login User
       }); // end Register User
   });
