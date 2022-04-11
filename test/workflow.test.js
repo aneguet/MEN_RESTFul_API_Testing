@@ -20,7 +20,7 @@ describe("/General, User and Artist tests", () => {
         expect(actualVal).to.be.equal("Welcome to my Artists MEN RESTful API"); // Object received should have a specific value
         done(); // This makes sure the http request completes first and then the assertions are done
       });
-  });
+  }).timeout(15000);
 
   // ------------------------  0 Artists in the DB  ----------------------------
   // it("Verifies that we have 0 artists in the database", (done) => {
@@ -98,7 +98,7 @@ describe("/General, User and Artist tests", () => {
             done();
           }); // end Login User
       }); // end Register User
-  });
+  }).timeout(15000);
   //--------------------------  Register User and Login with invalid Email --------
   it("Should not REGISTER User and LOGIN with invalid Email", (done) => {
     let user = {
@@ -131,7 +131,7 @@ describe("/General, User and Artist tests", () => {
             done();
           }); // end Login User
       }); // end Register User
-  });
+  }).timeout(15000);
   //--------------------------  Register User and Login with invalid Password --------
   it("Should not REGISTER User and LOGIN with invalid Password", (done) => {
     let user = {
@@ -164,7 +164,7 @@ describe("/General, User and Artist tests", () => {
             done();
           }); // end Login User
       }); // end Register User
-  });
+  }).timeout(15000);
   // Invalid inputs
   //--------------------------  Register User that already exists ----------------------------
   // Error 400. "Email already exists"
@@ -196,7 +196,7 @@ describe("/General, User and Artist tests", () => {
             done();
           }); // end Register User 2
       }); // end Register User 1
-  });
+  }).timeout(15000);
 
   // GET ALL the Artists
   it("Should GET ALL the Artists", (done) => {
@@ -209,7 +209,7 @@ describe("/General, User and Artist tests", () => {
         res.body.length.should.be.eql(0);
         done();
       });
-  });
+  }).timeout(15000);
   //--------------------------  Register + Login + Create Artist + Verify 1 in DB ----------------------
   // Before creating the artist, we need to register a user and login to get the token
   it("Should REGISTER+LOGIN User, CREATE a valid Artist and verify 1 ARTIST in the DB", (done) => {
@@ -277,7 +277,7 @@ describe("/General, User and Artist tests", () => {
               }); // End Create Artist
           }); // End Login User
       }); // end Register User
-  });
+  }).timeout(15000);
   //--------------------------  Register + Login + Create Artist + Get by Id ----------------------
   it("Should REGISTER+LOGIN User, CREATE a valid Artist and GET By Id", (done) => {
     let user = {
@@ -365,7 +365,7 @@ describe("/General, User and Artist tests", () => {
               }); // End Create Artist
           }); // End Login User
       }); // end Register User
-  });
+  }).timeout(15000);
   //--------------------------  Register + Login + Create Artist + Get by wrong Id ----------------------
   it("Should REGISTER+LOGIN User, CREATE a valid Artist and GET By wrong Id", (done) => {
     let user = {
@@ -443,5 +443,5 @@ describe("/General, User and Artist tests", () => {
               }); // End Create Artist
           }); // End Login User
       }); // end Register User
-  });
+  }).timeout(15000);
 });
