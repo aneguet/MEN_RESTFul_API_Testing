@@ -99,8 +99,8 @@ describe("/General, User and Artist tests", function () {
             expect(res.status).to.be.equal(200);
             expect(res.body.error).to.be.equal(null);
             // done();
-            this.timeout(100000);
-            setTimeout(done, 100000);
+            this.timeout(100000000);
+            setTimeout(done, 100000000);
           }); // end Login User
       }); // end Register User
   });
