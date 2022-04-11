@@ -98,7 +98,7 @@ describe("/General, User and Artist tests", () => {
             done();
           }); // end Login User
       }); // end Register User
-  }).timeout(15000);
+  });
   //--------------------------  Register User and Login with invalid Email --------
   // it("Should not REGISTER User and LOGIN with invalid Email", (done) => {
   //   let user = {
