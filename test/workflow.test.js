@@ -6,7 +6,10 @@ const should = chai.should();
 const chaiHttp = require("chai-http"); // Plugin that allows https integration testing, it tests request & response
 chai.use(chaiHttp);
 const server = require("../server");
-describe("/General, User and Artist tests", () => {
+// describe("/General, User and Artist tests", () => {
+describe("/General, User and Artist tests", function () {
+  this.timeout(100000);
+
   // describe("/General, User and Artist tests", function () {
   // it("Test default API Welcome route", (done) => {
   //   chai
@@ -95,7 +98,9 @@ describe("/General, User and Artist tests", () => {
             // FIXME console.log("Body response: " + res.body.error);
             expect(res.status).to.be.equal(200);
             expect(res.body.error).to.be.equal(null);
-            done();
+            // done();
+            this.timeout(100000);
+            setTimeout(done, 100000);
           }); // end Login User
       }); // end Register User
   });
