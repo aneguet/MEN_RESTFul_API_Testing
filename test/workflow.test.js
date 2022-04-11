@@ -23,37 +23,42 @@ describe("/General, User and Artist tests", () => {
   });
   //--------------------------  Register User and Login ----------------------------
   it("Should REGISTER User and LOGIN", (done) => {
-    let user = {
-      name: "Test user",
-      email: "test@test.com",
-      password: "123456",
-    };
-    chai
-      .request(server)
-      .post("/api/user/register")
-      .send(user)
-      .end((err, res) => {
-        // Asserts
-        console.log("***** Body response: " + res.body.error);
-        expect(res.status).to.be.equal(200);
-        expect(res.body).to.be.a("object");
-        expect(res.body.error).to.be.equal(null);
-        // 2) Login user
-        chai
-          .request(server)
-          .post("/api/user/login")
-          .send({
-            email: "test@test.com",
-            password: "123456",
-          })
-          .end((err, res) => {
-            // Asserts
-            console.log("********* Body response: " + res.body.error);
-            expect(res.status).to.be.equal(200);
-            expect(res.body.error).to.be.equal(null);
-            done();
-          }); // end Login User
-      }); // end Register User
+    try {
+      // boilerplate to be able to get the assert failures
+      let user = {
+        name: "Test user",
+        email: "test@test.com",
+        password: "123456",
+      };
+      chai
+        .request(server)
+        .post("/api/user/register")
+        .send(user)
+        .end((err, res) => {
+          // Asserts
+          console.log("***** Body response: " + res.body.error);
+          expect(res.status).to.be.equal(200);
+          expect(res.body).to.be.a("object");
+          expect(res.body.error).to.be.equal(null);
+          // 2) Login user
+          chai
+            .request(server)
+            .post("/api/user/login")
+            .send({
+              email: "test@test.com",
+              password: "123456",
+            })
+            .end((err, res) => {
+              // Asserts
+              console.log("********* Body response: " + res.body.error);
+              expect(res.status).to.be.equal(200);
+              expect(res.body.error).to.be.equal(null);
+              done();
+            }); // end Login User
+        }); // end Register User
+    } catch (error) {
+      done(error);
+    }
   });
   //--------------------------  Register User and Login with invalid Email --------
   it("Should not REGISTER User and LOGIN with invalid Email", (done) => {
