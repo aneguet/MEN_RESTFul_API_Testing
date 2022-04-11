@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aneguet/MEN_RESTful_API.git"
+    "url": "git+https://github.com/aneguet/MEN_RESTFul_API_Testing.git"
   },
   "keywords": [
     "mongodb",
@@ -20,9 +20,9 @@
   "author": "Anna Lopez Ribo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/aneguet/MEN_RESTful_API/issues"
+    "url": "https://github.com/aneguet/MEN_RESTFul_API_Testing/issues"
   },
-  "homepage": "https://github.com/aneguet/MEN_RESTful_API#readme",
+  "homepage": "https://github.com/aneguet/MEN_RESTFul_API_Testing#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",
