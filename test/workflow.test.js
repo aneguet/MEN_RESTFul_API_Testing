@@ -22,7 +22,7 @@ describe('/General, User and Artist tests', () => {
         done(); // This makes sure the http request completes first and then the assertions are done
       });
   });
-  //--------------------------  Register User and Login ----------------------------
+  //--------------------------  Register User and Login ---------------------------
   it('Should REGISTER User and LOGIN', (done) => {
     let user = {
       name: 'Test user',
