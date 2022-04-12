@@ -31,7 +31,7 @@ jobs:
         env:
           DBHOST: ${{ secrets.DBHOST }}
           TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
-          JWT_EXPRES_IN: ${{ secrets.JWT_EXPRES_IN }}
+          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
   deploy:
     name: Deploy
     needs: [test]
