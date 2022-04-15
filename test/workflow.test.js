@@ -399,6 +399,351 @@ describe('/General, User and Artist tests', () => {
           }); // End Login User
       }); // end Register User
   });
+  //--------------------------  Register + Login + Create Artist + Update Artist ----------------------
+  it('Should REGISTER+LOGIN User, CREATE a valid Artist and Update it', (done) => {
+    let user = {
+      name: 'Test user',
+      email: 'test@test.com',
+      password: '123456',
+    };
+
+    // 1) Register user
+    chai
+      .request(server)
+      .post('/api/user/register')
+      .send(user)
+      .end((err, res) => {
+        // Asserts
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body.error).to.be.equal(null);
+
+        // 2) Login user
+        chai
+          .request(server)
+          .post('/api/user/login')
+          .send({
+            email: 'test@test.com',
+            password: '123456',
+          })
+          .end((err, res) => {
+            // Asserts
+            expect(res.status).to.be.equal(200);
+            expect(res.body.error).to.be.equal(null);
+            let token = res.body.data.token; // Token
+            // 3) Create artist
+            let artist = {
+              name: 'Test name',
+              info: 'This is a test info',
+              genre: 'Test genre',
+              photo: 'Test photo',
+              listeners: 'Test listeners',
+              albums: ['Test album'],
+              top_tracks: ['Test top track'],
+              similar_to: ['Test similar to'],
+            };
+            chai
+              .request(server)
+              .post('/api/artists')
+              .set({ 'auth-token': token }) // Token
+              .send(artist)
+              .end((err, res) => {
+                // 4) Verify that there's 1 artist and that it has the same values
+                res.should.have.status(201);
+                expect(res.body).to.be.a('array');
+                expect(res.body.length).to.be.eql(1);
+                let savedArtist = res.body[0];
+                // console.log("********* SAVED ARTIST ID: " + savedArtist._id);
+                expect(savedArtist.name).to.be.equal(artist.name);
+                expect(savedArtist.info).to.be.equal(artist.info);
+                expect(savedArtist.genre).to.be.equal(artist.genre);
+                expect(savedArtist.photo).to.be.equal(artist.photo);
+                expect(savedArtist.listeners).to.be.equal(artist.listeners);
+                expect(savedArtist.albums).to.eql(artist.albums);
+                expect(savedArtist.top_tracks).to.eql(artist.top_tracks);
+                expect(savedArtist.similar_to).to.eql(artist.similar_to);
+
+                // 5) Update Artist
+                let artistUpdated = {
+                  name: 'Test name 2',
+                  info: 'This is a test info 2',
+                  genre: 'Test genre 2',
+                  photo: 'Test photo 2',
+                  listeners: 'Test listeners 2',
+                  albums: ['Test album 2'],
+                  top_tracks: ['Test top track 2'],
+                  similar_to: ['Test similar to 2'],
+                };
+                chai
+                  .request(server)
+                  .put('/api/artists/' + savedArtist._id)
+                  .set({ 'auth-token': token }) // Token
+                  .send(artistUpdated)
+                  .end((err, res) => {
+                    res.should.have.status(200);
+                    // console.log('*********** ' + res.body.message);
+                    res.body.should.have.property('message');
+                    expect(res.body.message).to.be.equal(
+                      'Artist successfully updated.'
+                    );
+
+                    done();
+                  });
+              }); // End Create Artist
+          }); // End Login User
+      }); // end Register User
+  });
+  //--------------------------  Register + Login + Create Artist + Update Artist by wrong ID ----------------------
+  it('Should REGISTER+LOGIN User, CREATE a valid Artist and Update it by wrong ID', (done) => {
+    let user = {
+      name: 'Test user',
+      email: 'test@test.com',
+      password: '123456',
+    };
+
+    // 1) Register user
+    chai
+      .request(server)
+      .post('/api/user/register')
+      .send(user)
+      .end((err, res) => {
+        // Asserts
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body.error).to.be.equal(null);
+
+        // 2) Login user
+        chai
+          .request(server)
+          .post('/api/user/login')
+          .send({
+            email: 'test@test.com',
+            password: '123456',
+          })
+          .end((err, res) => {
+            // Asserts
+            expect(res.status).to.be.equal(200);
+            expect(res.body.error).to.be.equal(null);
+            let token = res.body.data.token; // Token
+            // 3) Create artist
+            let artist = {
+              name: 'Test name',
+              info: 'This is a test info',
+              genre: 'Test genre',
+              photo: 'Test photo',
+              listeners: 'Test listeners',
+              albums: ['Test album'],
+              top_tracks: ['Test top track'],
+              similar_to: ['Test similar to'],
+            };
+            chai
+              .request(server)
+              .post('/api/artists')
+              .set({ 'auth-token': token }) // Token
+              .send(artist)
+              .end((err, res) => {
+                // 4) Verify that there's 1 artist and that it has the same values
+                res.should.have.status(201);
+                expect(res.body).to.be.a('array');
+                expect(res.body.length).to.be.eql(1);
+                let savedArtist = res.body[0];
+                // console.log("********* SAVED ARTIST ID: " + savedArtist._id);
+                expect(savedArtist.name).to.be.equal(artist.name);
+                expect(savedArtist.info).to.be.equal(artist.info);
+                expect(savedArtist.genre).to.be.equal(artist.genre);
+                expect(savedArtist.photo).to.be.equal(artist.photo);
+                expect(savedArtist.listeners).to.be.equal(artist.listeners);
+                expect(savedArtist.albums).to.eql(artist.albums);
+                expect(savedArtist.top_tracks).to.eql(artist.top_tracks);
+                expect(savedArtist.similar_to).to.eql(artist.similar_to);
+
+                // 5) Update Artist
+                let artistUpdated = {
+                  name: 'Test name 2',
+                  info: 'This is a test info 2',
+                  genre: 'Test genre 2',
+                  photo: 'Test photo 2',
+                  listeners: 'Test listeners 2',
+                  albums: ['Test album 2'],
+                  top_tracks: ['Test top track 2'],
+                  similar_to: ['Test similar to 2'],
+                };
+                chai
+                  .request(server)
+                  .put('/api/artists/' + 'as2skjajk3')
+                  .set({ 'auth-token': token }) // Token
+                  .send(artistUpdated)
+                  .end((err, res) => {
+                    expect(res.status).to.be.oneOf([404, 500]);
+                    res.body.should.have.property('message');
+                    // console.log('*********** ' + res.body.message);
+                    done();
+                  });
+              }); // End Create Artist
+          }); // End Login User
+      }); // end Register User
+  });
+  //--------------------------  Register + Login + Create Artist + Delete Artist ----------------------
+  it('Should REGISTER+LOGIN User, CREATE a valid Artist and Delete it', (done) => {
+    let user = {
+      name: 'Test user',
+      email: 'test@test.com',
+      password: '123456',
+    };
+
+    // 1) Register user
+    chai
+      .request(server)
+      .post('/api/user/register')
+      .send(user)
+      .end((err, res) => {
+        // Asserts
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body.error).to.be.equal(null);
+
+        // 2) Login user
+        chai
+          .request(server)
+          .post('/api/user/login')
+          .send({
+            email: 'test@test.com',
+            password: '123456',
+          })
+          .end((err, res) => {
+            // Asserts
+            expect(res.status).to.be.equal(200);
+            expect(res.body.error).to.be.equal(null);
+            let token = res.body.data.token; // Token
+            // 3) Create artist
+            let artist = {
+              name: 'Test name',
+              info: 'This is a test info',
+              genre: 'Test genre',
+              photo: 'Test photo',
+              listeners: 'Test listeners',
+              albums: ['Test album'],
+              top_tracks: ['Test top track'],
+              similar_to: ['Test similar to'],
+            };
+            chai
+              .request(server)
+              .post('/api/artists')
+              .set({ 'auth-token': token }) // Token
+              .send(artist)
+              .end((err, res) => {
+                // 4) Verify that there's 1 artist and that it has the same values
+                res.should.have.status(201);
+                expect(res.body).to.be.a('array');
+                expect(res.body.length).to.be.eql(1);
+                let savedArtist = res.body[0];
+                // console.log("********* SAVED ARTIST ID: " + savedArtist._id);
+                expect(savedArtist.name).to.be.equal(artist.name);
+                expect(savedArtist.info).to.be.equal(artist.info);
+                expect(savedArtist.genre).to.be.equal(artist.genre);
+                expect(savedArtist.photo).to.be.equal(artist.photo);
+                expect(savedArtist.listeners).to.be.equal(artist.listeners);
+                expect(savedArtist.albums).to.eql(artist.albums);
+                expect(savedArtist.top_tracks).to.eql(artist.top_tracks);
+                expect(savedArtist.similar_to).to.eql(artist.similar_to);
+
+                // 5) Delete Artist
+                chai
+                  .request(server)
+                  .delete('/api/artists/' + savedArtist._id)
+                  .set({ 'auth-token': token }) // Token
+                  .end((err, res) => {
+                    res.should.have.status(200);
+                    console.log('*********** ' + res.body.message);
+                    res.body.should.have.property('message');
+                    expect(res.body.message).to.be.equal(
+                      'Artist successfully deleted.'
+                    );
+                    done();
+                  });
+              }); // End Create Artist
+          }); // End Login User
+      }); // end Register User
+  });
+  //--------------------------  Register + Login + Create Artist + Delete Artist by wrong ID ----------------------
+  it('Should REGISTER+LOGIN User, CREATE a valid Artist and Delete it by wrong ID', (done) => {
+    let user = {
+      name: 'Test user',
+      email: 'test@test.com',
+      password: '123456',
+    };
+
+    // 1) Register user
+    chai
+      .request(server)
+      .post('/api/user/register')
+      .send(user)
+      .end((err, res) => {
+        // Asserts
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body.error).to.be.equal(null);
+
+        // 2) Login user
+        chai
+          .request(server)
+          .post('/api/user/login')
+          .send({
+            email: 'test@test.com',
+            password: '123456',
+          })
+          .end((err, res) => {
+            // Asserts
+            expect(res.status).to.be.equal(200);
+            expect(res.body.error).to.be.equal(null);
+            let token = res.body.data.token; // Token
+            // 3) Create artist
+            let artist = {
+              name: 'Test name',
+              info: 'This is a test info',
+              genre: 'Test genre',
+              photo: 'Test photo',
+              listeners: 'Test listeners',
+              albums: ['Test album'],
+              top_tracks: ['Test top track'],
+              similar_to: ['Test similar to'],
+            };
+            chai
+              .request(server)
+              .post('/api/artists')
+              .set({ 'auth-token': token }) // Token
+              .send(artist)
+              .end((err, res) => {
+                // 4) Verify that there's 1 artist and that it has the same values
+                res.should.have.status(201);
+                expect(res.body).to.be.a('array');
+                expect(res.body.length).to.be.eql(1);
+                let savedArtist = res.body[0];
+                // console.log("********* SAVED ARTIST ID: " + savedArtist._id);
+                expect(savedArtist.name).to.be.equal(artist.name);
+                expect(savedArtist.info).to.be.equal(artist.info);
+                expect(savedArtist.genre).to.be.equal(artist.genre);
+                expect(savedArtist.photo).to.be.equal(artist.photo);
+                expect(savedArtist.listeners).to.be.equal(artist.listeners);
+                expect(savedArtist.albums).to.eql(artist.albums);
+                expect(savedArtist.top_tracks).to.eql(artist.top_tracks);
+                expect(savedArtist.similar_to).to.eql(artist.similar_to);
+
+                // 5) Delete Artist
+                chai
+                  .request(server)
+                  .delete('/api/artists/' + 'hjbhbhk2')
+                  .set({ 'auth-token': token }) // Token
+                  .end((err, res) => {
+                    expect(res.status).to.be.oneOf([404, 500]);
+                    res.body.should.have.property('message');
+                    // console.log('*********** ' + res.body.message);
+                    done();
+                  });
+              }); // End Create Artist
+          }); // End Login User
+      }); // end Register User
+  });
 });
 
 //_____________________________________________________________
@@ -414,11 +759,11 @@ describe('/General, User and Artist tests', () => {
 // |x| Create valid artist
 // |x| Create artist and get by id
 // |x| Create an artist and get by wrong id
-// | | Create artist and update
-// | | Create artist and update it by wrong id
-// | | Create artist and update it by wrong definition
-// | | Create artist and delete it
-// | | Create artist and delete it by wrong id
+// |x| Create artist and update
+// |x| Create artist and update it by wrong id
+// | | Create artist and update it by wrong definition --!!!--
+// |x| Create artist and delete it
+// |x| Create artist and delete it by wrong id
 //_____________________________________________________________
 
 // ------------------------  0 Artists in the DB  ----------------------------
