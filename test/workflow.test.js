@@ -233,6 +233,66 @@ describe('/General, User and Artist tests', () => {
           }); // End Login User
       }); // end Register User
   });
+  //--------------------------  Register + Login + Create Invalid Artist (no name) ----------------------
+  it('Should REGISTER+LOGIN User, CREATE invalid Artist (no name property)', (done) => {
+    let user = {
+      name: 'Test user',
+      email: 'test@test.com',
+      password: '123456',
+    };
+
+    // 1) Register user
+    chai
+      .request(server)
+      .post('/api/user/register')
+      .send(user)
+      .end((err, res) => {
+        // Asserts
+        expect(res.status).to.be.equal(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body.error).to.be.equal(null);
+
+        // 2) Login user
+        chai
+          .request(server)
+          .post('/api/user/login')
+          .send({
+            email: 'test@test.com',
+            password: '123456',
+          })
+          .end((err, res) => {
+            // Asserts
+            expect(res.status).to.be.equal(200);
+            expect(res.body.error).to.be.equal(null);
+            let token = res.body.data.token; // Token
+            // 3) Create artist
+            let artist = {
+              // name: 'Test name',
+              info: 'This is a test info',
+              genre: 'Test genre',
+              photo: 'Test photo',
+              listeners: 'Test listeners',
+              albums: ['Test album'],
+              top_tracks: ['Test top track'],
+              similar_to: ['Test similar to'],
+            };
+            chai
+              .request(server)
+              .post('/api/artists')
+              .set({ 'auth-token': token }) // Token
+              .send(artist)
+              .end((err, res) => {
+                res.should.have.status(500);
+                res.body.should.have.property('message');
+                expect(res.body.message).to.include(
+                  'artist validation failed: name'
+                );
+                // console.log('*********** ' + res.body.message);
+                done();
+              }); // End Create Artist
+          }); // End Login User
+      }); // end Register User
+  });
   //--------------------------  Register + Login + Create Artist + Get by Id ----------------------
   it('Should REGISTER+LOGIN User, CREATE a valid Artist and GET By Id', (done) => {
     let user = {
@@ -654,7 +714,7 @@ describe('/General, User and Artist tests', () => {
                   .set({ 'auth-token': token }) // Token
                   .end((err, res) => {
                     res.should.have.status(200);
-                    console.log('*********** ' + res.body.message);
+                    // console.log('*********** ' + res.body.message);
                     res.body.should.have.property('message');
                     expect(res.body.message).to.be.equal(
                       'Artist successfully deleted.'
@@ -747,8 +807,6 @@ describe('/General, User and Artist tests', () => {
 });
 
 //_____________________________________________________________
-// Check that artist name doesn't exist already
-//(Apply joi to artist routes file) !!!!!!!!!!
 // ----- User Tests
 // |x| Register user and login
 // |x| Register user and login with invalid Email
@@ -757,11 +815,11 @@ describe('/General, User and Artist tests', () => {
 // ----- Artist Tests (All include Register+Login)
 // |x| Test Get all artists route
 // |x| Create valid artist
+// |x| Create invalid artist (no name)
 // |x| Create artist and get by id
 // |x| Create an artist and get by wrong id
 // |x| Create artist and update
 // |x| Create artist and update it by wrong id
-// | | Create artist and update it by wrong definition --!!!--
 // |x| Create artist and delete it
 // |x| Create artist and delete it by wrong id
 //_____________________________________________________________
