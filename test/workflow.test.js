@@ -279,7 +279,7 @@ describe('/General, User and Artist tests', () => {
             chai
               .request(server)
               .post('/api/artists')
-              .set({ 'auth-token': token }) // Token
+              .set({ 'auth-token': token })
               .send(artist)
               .end((err, res) => {
                 res.should.have.status(500);
