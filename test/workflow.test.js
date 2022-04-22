@@ -15,10 +15,10 @@ describe('/General, User and Artist tests', () => {
       .get('/api/welcome')
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.be.a('object'); // Body response should be an object
+        res.body.should.be.a('object');
         const actualVal = res.body.message;
         // console.log("Body response: " + actualVal);
-        expect(actualVal).to.be.equal('Welcome to my Artists MEN RESTful API'); // Object received should have a specific value
+        expect(actualVal).to.be.equal('Welcome to my Artists MEN RESTful API');
         done(); // This makes sure the http request completes first and then the assertions are done
       });
   });
@@ -53,8 +53,8 @@ describe('/General, User and Artist tests', () => {
             expect(res.status).to.be.equal(200);
             expect(res.body.error).to.be.equal(null);
             done();
-          }); // end Login User
-      }); // end Register User
+          });
+      });
   });
   //--------------------------  Register User and Login with invalid Email --------
   it('Should not REGISTER User and LOGIN with invalid Email', (done) => {
@@ -86,8 +86,8 @@ describe('/General, User and Artist tests', () => {
             expect(res.body).to.be.a('object');
             expect(res.body.error).to.be.equal("Email doesn't exist");
             done();
-          }); // end Login User
-      }); // end Register User
+          });
+      });
   });
   //--------------------------  Register User and Login with invalid Password --------
   it('Should not REGISTER User and LOGIN with invalid Password', (done) => {
@@ -119,8 +119,8 @@ describe('/General, User and Artist tests', () => {
             expect(res.body).to.be.a('object');
             expect(res.body.error).to.be.equal('Incorrect password');
             done();
-          }); // end Login User
-      }); // end Register User
+          });
+      });
   });
   //--------------------------  Register User that already exists ----------------------------
   // Error 400. "Email already exists"
@@ -150,8 +150,8 @@ describe('/General, User and Artist tests', () => {
             expect(res.body).to.be.a('object');
             expect(res.body.error).to.be.equal('Email already exists');
             done();
-          }); // end Register User 2
-      }); // end Register User 1
+          });
+      });
   });
   // GET ALL the Artists
   it('Should GET ALL the Artists', (done) => {
@@ -197,7 +197,7 @@ describe('/General, User and Artist tests', () => {
             // Asserts
             expect(res.status).to.be.equal(200);
             expect(res.body.error).to.be.equal(null);
-            let token = res.body.data.token; // Token
+            let token = res.body.data.token;
             // 3) Create artist
             let artist = {
               name: 'Test name',
@@ -212,7 +212,7 @@ describe('/General, User and Artist tests', () => {
             chai
               .request(server)
               .post('/api/artists')
-              .set({ 'auth-token': token }) // Token
+              .set({ 'auth-token': token })
               .send(artist)
               .end((err, res) => {
                 // 4) Verify that there's 1 artist and that it has the same values
@@ -229,9 +229,9 @@ describe('/General, User and Artist tests', () => {
                 expect(savedArtist.top_tracks).to.eql(artist.top_tracks);
                 expect(savedArtist.similar_to).to.eql(artist.similar_to);
                 done();
-              }); // End Create Artist
-          }); // End Login User
-      }); // end Register User
+              });
+          });
+      });
   });
   //--------------------------  Register + Login + Create Invalid Artist (no name) ----------------------
   it('Should REGISTER+LOGIN User, CREATE invalid Artist (no name property)', (done) => {
@@ -264,7 +264,7 @@ describe('/General, User and Artist tests', () => {
             // Asserts
             expect(res.status).to.be.equal(200);
             expect(res.body.error).to.be.equal(null);
-            let token = res.body.data.token; // Token
+            let token = res.body.data.token;
             // 3) Create artist
             let artist = {
               // name: 'Test name',
@@ -289,9 +289,9 @@ describe('/General, User and Artist tests', () => {
                 );
                 // console.log('*********** ' + res.body.message);
                 done();
-              }); // End Create Artist
-          }); // End Login User
-      }); // end Register User
+              });
+          });
+      });
   });
   //--------------------------  Register + Login + Create Artist + Get by Id ----------------------
   it('Should REGISTER+LOGIN User, CREATE a valid Artist and GET By Id', (done) => {
@@ -324,7 +324,7 @@ describe('/General, User and Artist tests', () => {
             // Asserts
             expect(res.status).to.be.equal(200);
             expect(res.body.error).to.be.equal(null);
-            let token = res.body.data.token; // Token
+            let token = res.body.data.token;
             // 3) Create artist
             let artist = {
               name: 'Test name',
@@ -339,7 +339,7 @@ describe('/General, User and Artist tests', () => {
             chai
               .request(server)
               .post('/api/artists')
-              .set({ 'auth-token': token }) // Token
+              .set({ 'auth-token': token })
               .send(artist)
               .end((err, res) => {
                 // 4) Verify that there's 1 artist and that it has the same values
@@ -365,7 +365,6 @@ describe('/General, User and Artist tests', () => {
                     res.should.have.status(200);
                     // console.log("*********** " + res.body.name);
                     expect(res.body).to.be.a('object');
-                    // expect(res.body.length).to.be.eql(1); // ??????????????
                     res.body.should.have.property('name');
                     res.body.should.have.property('info');
                     res.body.should.have.property('genre');
@@ -377,9 +376,9 @@ describe('/General, User and Artist tests', () => {
                     res.body.should.have.property('_id').eql(savedArtist._id);
                     done();
                   });
-              }); // End Create Artist
-          }); // End Login User
-      }); // end Register User
+              });
+          });
+      });
   });
   //--------------------------  Register + Login + Create Artist + Get by wrong Id ----------------------
   it('Should REGISTER+LOGIN User, CREATE a valid Artist and GET By wrong Id', (done) => {
@@ -412,7 +411,7 @@ describe('/General, User and Artist tests', () => {
             // Asserts
             expect(res.status).to.be.equal(200);
             expect(res.body.error).to.be.equal(null);
-            let token = res.body.data.token; // Token
+            let token = res.body.data.token;
             // 3) Create artist
             let artist = {
               name: 'Test name',
@@ -427,7 +426,7 @@ describe('/General, User and Artist tests', () => {
             chai
               .request(server)
               .post('/api/artists')
-              .set({ 'auth-token': token }) // Token
+              .set({ 'auth-token': token })
               .send(artist)
               .end((err, res) => {
                 // 4) Verify that there's 1 artist and that it has the same values
@@ -455,9 +454,9 @@ describe('/General, User and Artist tests', () => {
 
                     done();
                   });
-              }); // End Create Artist
-          }); // End Login User
-      }); // end Register User
+              });
+          });
+      });
   });
   //--------------------------  Register + Login + Create Artist + Update Artist ----------------------
   it('Should REGISTER+LOGIN User, CREATE a valid Artist and Update it', (done) => {
@@ -490,7 +489,7 @@ describe('/General, User and Artist tests', () => {
             // Asserts
             expect(res.status).to.be.equal(200);
             expect(res.body.error).to.be.equal(null);
-            let token = res.body.data.token; // Token
+            let token = res.body.data.token;
             // 3) Create artist
             let artist = {
               name: 'Test name',
@@ -505,7 +504,7 @@ describe('/General, User and Artist tests', () => {
             chai
               .request(server)
               .post('/api/artists')
-              .set({ 'auth-token': token }) // Token
+              .set({ 'auth-token': token })
               .send(artist)
               .end((err, res) => {
                 // 4) Verify that there's 1 artist and that it has the same values
@@ -537,7 +536,7 @@ describe('/General, User and Artist tests', () => {
                 chai
                   .request(server)
                   .put('/api/artists/' + savedArtist._id)
-                  .set({ 'auth-token': token }) // Token
+                  .set({ 'auth-token': token })
                   .send(artistUpdated)
                   .end((err, res) => {
                     res.should.have.status(200);
@@ -549,9 +548,9 @@ describe('/General, User and Artist tests', () => {
 
                     done();
                   });
-              }); // End Create Artist
-          }); // End Login User
-      }); // end Register User
+              });
+          });
+      });
   });
   //--------------------------  Register + Login + Create Artist + Update Artist by wrong ID ----------------------
   it('Should REGISTER+LOGIN User, CREATE a valid Artist and Update it by wrong ID', (done) => {
@@ -584,7 +583,7 @@ describe('/General, User and Artist tests', () => {
             // Asserts
             expect(res.status).to.be.equal(200);
             expect(res.body.error).to.be.equal(null);
-            let token = res.body.data.token; // Token
+            let token = res.body.data.token;
             // 3) Create artist
             let artist = {
               name: 'Test name',
@@ -599,7 +598,7 @@ describe('/General, User and Artist tests', () => {
             chai
               .request(server)
               .post('/api/artists')
-              .set({ 'auth-token': token }) // Token
+              .set({ 'auth-token': token })
               .send(artist)
               .end((err, res) => {
                 // 4) Verify that there's 1 artist and that it has the same values
@@ -631,7 +630,7 @@ describe('/General, User and Artist tests', () => {
                 chai
                   .request(server)
                   .put('/api/artists/' + 'as2skjajk3')
-                  .set({ 'auth-token': token }) // Token
+                  .set({ 'auth-token': token })
                   .send(artistUpdated)
                   .end((err, res) => {
                     expect(res.status).to.be.oneOf([404, 500]);
@@ -639,9 +638,9 @@ describe('/General, User and Artist tests', () => {
                     // console.log('*********** ' + res.body.message);
                     done();
                   });
-              }); // End Create Artist
-          }); // End Login User
-      }); // end Register User
+              });
+          });
+      });
   });
   //--------------------------  Register + Login + Create Artist + Delete Artist ----------------------
   it('Should REGISTER+LOGIN User, CREATE a valid Artist and Delete it', (done) => {
@@ -674,7 +673,7 @@ describe('/General, User and Artist tests', () => {
             // Asserts
             expect(res.status).to.be.equal(200);
             expect(res.body.error).to.be.equal(null);
-            let token = res.body.data.token; // Token
+            let token = res.body.data.token;
             // 3) Create artist
             let artist = {
               name: 'Test name',
@@ -689,7 +688,7 @@ describe('/General, User and Artist tests', () => {
             chai
               .request(server)
               .post('/api/artists')
-              .set({ 'auth-token': token }) // Token
+              .set({ 'auth-token': token })
               .send(artist)
               .end((err, res) => {
                 // 4) Verify that there's 1 artist and that it has the same values
@@ -711,7 +710,7 @@ describe('/General, User and Artist tests', () => {
                 chai
                   .request(server)
                   .delete('/api/artists/' + savedArtist._id)
-                  .set({ 'auth-token': token }) // Token
+                  .set({ 'auth-token': token })
                   .end((err, res) => {
                     res.should.have.status(200);
                     // console.log('*********** ' + res.body.message);
@@ -721,9 +720,9 @@ describe('/General, User and Artist tests', () => {
                     );
                     done();
                   });
-              }); // End Create Artist
-          }); // End Login User
-      }); // end Register User
+              });
+          });
+      });
   });
   //--------------------------  Register + Login + Create Artist + Delete Artist by wrong ID ----------------------
   it('Should REGISTER+LOGIN User, CREATE a valid Artist and Delete it by wrong ID', (done) => {
@@ -756,7 +755,7 @@ describe('/General, User and Artist tests', () => {
             // Asserts
             expect(res.status).to.be.equal(200);
             expect(res.body.error).to.be.equal(null);
-            let token = res.body.data.token; // Token
+            let token = res.body.data.token;
             // 3) Create artist
             let artist = {
               name: 'Test name',
@@ -771,7 +770,7 @@ describe('/General, User and Artist tests', () => {
             chai
               .request(server)
               .post('/api/artists')
-              .set({ 'auth-token': token }) // Token
+              .set({ 'auth-token': token })
               .send(artist)
               .end((err, res) => {
                 // 4) Verify that there's 1 artist and that it has the same values
@@ -779,7 +778,7 @@ describe('/General, User and Artist tests', () => {
                 expect(res.body).to.be.a('array');
                 expect(res.body.length).to.be.eql(1);
                 let savedArtist = res.body[0];
-                // console.log("********* SAVED ARTIST ID: " + savedArtist._id);
+                // console.log('********* SAVED ARTIST ID: ' + savedArtist._id);
                 expect(savedArtist.name).to.be.equal(artist.name);
                 expect(savedArtist.info).to.be.equal(artist.info);
                 expect(savedArtist.genre).to.be.equal(artist.genre);
@@ -793,58 +792,15 @@ describe('/General, User and Artist tests', () => {
                 chai
                   .request(server)
                   .delete('/api/artists/' + 'hjbhbhk2')
-                  .set({ 'auth-token': token }) // Token
+                  .set({ 'auth-token': token })
                   .end((err, res) => {
                     expect(res.status).to.be.oneOf([404, 500]);
                     res.body.should.have.property('message');
                     // console.log('*********** ' + res.body.message);
                     done();
                   });
-              }); // End Create Artist
-          }); // End Login User
-      }); // end Register User
+              });
+          });
+      });
   });
 });
-
-//_____________________________________________________________
-// ----- User Tests
-// |x| Register user and login
-// |x| Register user and login with invalid Email
-// |x| Register user and login with invalid Password
-// |x| Register user that already exists
-// ----- Artist Tests (All include Register+Login)
-// |x| Test Get all artists route
-// |x| Create valid artist
-// |x| Create invalid artist (no name)
-// |x| Create artist and get by id
-// |x| Create an artist and get by wrong id
-// |x| Create artist and update
-// |x| Create artist and update it by wrong id
-// |x| Create artist and delete it
-// |x| Create artist and delete it by wrong id
-//_____________________________________________________________
-
-// ------------------------  0 Artists in the DB  ----------------------------
-// it("Verifies that we have 0 artists in the database", (done) => {
-//   chai
-//     .request(server)
-//     .get("/api/artists")
-//     .end((err, res) => {
-//       res.should.have.status(200);
-//       res.body.should.be.a("array"); // If it is empty it will always be an array
-//       res.body.length.should.be.eql(0);
-//       done();
-//     });
-// });
-// --------------------------  1 Artist in the DB ---------------------------
-// it("Verifies that we have 1 artist in the database", (done) => {
-//   chai
-//     .request(server)
-//     .get("/api/artists")
-//     .end((err, res) => {
-//       res.should.have.status(200);
-//       res.body.should.be.a("array"); // If it is empty it will always be an array
-//       res.body.length.should.be.eql(1);
-//       done(); // Run it especially if we have extra cases after this assertion
-//     });
-// });
