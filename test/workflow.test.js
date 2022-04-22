@@ -778,7 +778,7 @@ describe('/General, User and Artist tests', () => {
                 expect(res.body).to.be.a('array');
                 expect(res.body.length).to.be.eql(1);
                 let savedArtist = res.body[0];
-                // console.log('********* SAVED ARTIST ID: ' + savedArtist._id);
+                // console.log('******** SAVED ARTIST ID: ' + savedArtist._id);
                 expect(savedArtist.name).to.be.equal(artist.name);
                 expect(savedArtist.info).to.be.equal(artist.info);
                 expect(savedArtist.genre).to.be.equal(artist.genre);
